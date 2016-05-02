@@ -1,0 +1,239 @@
+---
+title: "TZM-bl infection assays 003 and 004"
+author: "Claire Levy"
+output:
+ md_document:
+    variant: markdown_github
+---
+## TZM-bl infection assay 003 experiment goal
+
+Measure effect of pre-incubating virus and SE with different concentrations of virus per PFU
+
+* Used day8 purified virus for Bal and day5JR-FL 
+
+## Results
+
+There is a dose response effect of the SE for both Bal and JR-FL; the RLU is lower (less infection) as the concentration of SE per PFU increases. All replicates were at least 3x the cells only (no virus, no SE) control except for one replicate in the Bal treatment.
+
+In general, the cells infected with Bal had higher RLU readouts.
+
+```{r, echo=FALSE,warning=FALSE, message= FALSE}
+  
+library(plateR)
+library(ggplot2)
+library(dplyr)
+library(stringr)
+library(scales)
+
+
+
+#read in the results and metadata
+dat003<-read_plate("./TZM-bl_infection_assay_003/plateR_formatted_metadata_and_results.csv")
+
+
+#fix the factors so the order is right in plots
+dat003$Condition<-factor(dat003$Condition)
+
+
+
+dat003$Condition <-factor(dat003$Condition, levels(dat003$Condition)[c(5,4,9,1:3, 6:8)])
+
+#add columns to better define the conditions
+dat003<-dat003 %>%
+  mutate(Virus = ifelse(str_detect(Condition, "[B*]")== TRUE,"Bal",
+         ifelse(str_detect(Condition,"[J*]")==TRUE,"JR-FL", "No_Virus")))%>%
+  mutate(SE_Conc =ifelse(str_detect(Condition, "4")== TRUE,"10^4",
+         ifelse(str_detect(Condition,"5")==TRUE,"10^5",
+                ifelse(str_detect(Condition,"6")==TRUE,
+                       "10^6","No_SE")
+         )
+  )
+  )
+
+
+#make the Condition column even more understandable.
+dat003<-dat003 %>%
+  mutate(SE_Conc = ifelse(Condition == "Bal"|Condition == "JR-FL","No_SE", SE_Conc))%>%
+  mutate(SE_Conc = ifelse(Condition == "Cells_only","No_virus_No_SE", SE_Conc))
+
+# split the data up into different dfs for each virus and keep the controls there too.
+
+dat003Bal <-dat003 %>%
+  filter(Virus == "Bal" | Virus == "No_Virus")
+
+
+
+dat003JRFL<-dat003%>%
+  filter(Virus == "JR-FL" | Virus == "No_Virus")
+
+#all the Bal data
+#outliers: 10^4:B01 10^5: C02, for 10^6=C03, Bal alone: B04.
+
+ggplot(dat003Bal,aes(x = Condition, y = RLU))+ scale_y_continuous(labels = scientific)+
+  geom_point(aes(), size = 3)+
+  ggtitle("Bal data: all reps")
+
+
+
+#all the JRFL data
+#outliers: 10^4: D05, 10^5: D06, 10^6:none, JRFL alone:B08
+ggplot(dat003JRFL,aes(x = Condition, y = RLU))+
+  scale_y_continuous(labels = scientific)+
+  geom_point(aes(), size = 3)+
+  ggtitle("JR-FL: all reps are 3x avg Cells only control")
+
+
+
+#determine the average concentration of the cells alone
+avgCellsOnly<-dat003 %>%
+  filter(Virus == "No_Virus",SE_Conc=="No_virus_No_SE" ) %>%
+  group_by(Condition)%>%
+  summarise(avgRLU = mean(RLU))
+
+
+#make a df that just includes RLU that are 3x the "cells only" condition, plus the controls
+
+dat003Bal3xCntl<-dat003Bal %>%
+  filter(RLU >= 3*avgCellsOnly$avgRLU |Condition == "Cells_only")
+
+
+dat003JRFL3xCntl<-dat003JRFL %>%
+  filter(RLU >= 3*avgCellsOnly$avgRLU |Condition == "Cells_only")#all are 3x cells only avg
+
+#just the Bal data that were 3x cells alone
+ggplot(dat003Bal3xCntl,aes(x = Condition, y = RLU))+ scale_y_continuous(labels = scientific)+
+geom_point(aes(), size = 3)+
+ggtitle("Bal data: only reps 3x avg Cells Only control")
+
+#all JRFL data were at least 3x cells only so use same plot.
+
+
+```
+## TZM-bl infection assay 004 experiment goal
+
+Measure effect of pre-incubating TZM-bl cells and SE before adding virus (either JR-FL or Bal) and compared when the SE are removed ("Washed") or left on the cells ("Unwashed")before adding the virus.
+
+* Used day8 purified virus for Bal and JR-FL (in exp 003 used d5 for JR-FL)
+
+## Results
+
+Except for JR-FL washed, there is a dose response effect of the SE for both Bal and JR-FL; the RLU is lower (less infection) as the concentration of SE per PFU increases. All replicates were at least 3x the cells only (no virus, no SE) control. 
+
+Bal: In general, the RLU is lower (less infection) for the cells that were washed.
+
+JR-FL: The RLU is lower for the washed cells in the 10^4 and 10^6 exos per PFU conditions, but higher/the same for the 10^5 exos per PFU condition. Also note that the virus alone control is lower than expected.
+
+```{r, echo=FALSE,warning=FALSE, message= FALSE}
+  
+library(plateR)
+library(ggplot2)
+library(dplyr)
+library(stringr)
+library(scales)
+
+
+#read in the results and metadata
+dat004<-read_plate("./TZM-bl_infection_assay_004/plateR_formatted_metadata_and_results.csv")
+
+#make factors in a good order for plotting
+dat004$Condition<-factor(dat004$Condition)
+
+dat004$Condition <-factor(dat004$Condition,levels(dat004$Condition)[c(8,7,15,1:6,9:14)])
+                       
+
+
+#add columns to better define the conidtions
+dat004<-dat004 %>%
+  mutate(Virus = ifelse(str_detect(Condition, "[B*]")== TRUE,"Bal",
+         ifelse(str_detect(Condition,"[J*]")==TRUE,"JR-FL", "No_Virus")))%>%
+  mutate(SE_Conc = ifelse(str_detect(Condition, "4")== TRUE,"10^4",
+         ifelse(str_detect(Condition,"5")==TRUE,"10^5",
+                ifelse(str_detect(Condition,"6")==TRUE,
+                       "10^6","No_SE")
+         )
+  )
+  )
+
+#add a column for washed and unwashed
+dat004<-dat004 %>%
+  mutate(Wash = ifelse(str_detect(Condition, "W")== TRUE,"Washed","Unwashed"))
+
+
+#make the Condition column even more understandable.
+dat004<-dat004 %>%
+  mutate(SE_Conc = ifelse(Condition == "Bal"|Condition == "JR-FL","No_SE", SE_Conc))%>%
+  mutate(SE_Conc = ifelse(Condition == "Cells_only","No_virus_No_SE", SE_Conc))
+
+
+
+#make factors in a good order for plotting
+dat004$SE_Conc<-factor(dat004$SE_Conc)
+
+dat004$SE_Conc <-factor(dat004$SE_Conc,levels(dat004$SE_Conc)[c(5,4,1:3)])
+                       
+
+
+
+# split the data up into different dfs for each virus and keep the controls there too.
+
+dat004Bal <-dat004 %>%
+  filter(Virus == "Bal" | Virus == "No_Virus")
+
+
+dat004JRFL<-dat004%>%
+  filter(Virus == "JR-FL" | Virus == "No_Virus")
+
+#all the Bal data
+#outlier: B_CSE_10^6_N :A03 is really high
+ggplot(dat004Bal,aes(x = SE_Conc, y = RLU))+ scale_y_continuous(labels = scientific)+
+  geom_point(aes(color = Wash), size = 3)+
+  #facet_wrap(~Wash, scales = "free_x")+
+  ggtitle("Bal data: all reps are 3x cells only control")
+
+
+
+#all the JRFL data
+#outliers: J_CSE_10^5_W: D11 is much higher
+
+ggplot(dat004JRFL,aes(x = SE_Conc, y = RLU))+
+  scale_y_continuous(labels = scientific)+
+  geom_point(aes(color = Wash), size = 3)+
+  ggtitle("JR-FL: all reps are 3x cells only control")
+
+
+
+#determine the average concentration of the cells alone
+avgCellsOnly<-dat004 %>%
+  filter(SE_Conc =="No_virus_No_SE" ) %>%
+  group_by(Condition)%>%
+  summarise(avgRLU = mean(RLU))
+
+
+#make a df that just includes RLU that are 3x the "cells only" condition, plus the controls
+
+dat004Bal3xCntl<-dat004Bal %>%
+  filter(RLU >= 3*avgCellsOnly$avgRLU |Condition == "Cells_only")
+
+
+dat004JRFL3xCntl<-dat004JRFL %>%
+  filter(RLU >= 3*avgCellsOnly$avgRLU |Condition == "Cells_only")#all are 3x cells only avg
+
+#all JRFL and Bal data were at least 3x cells only
+
+
+
+
+
+#together
+#first remove the no virus condition
+# minusNoVirus<-dat004 %>%
+#   filter(Virus != "No_Virus")
+# 
+# ggplot(minusNoVirus,aes(x = SE_Conc, y = RLU))+
+#   scale_y_continuous(labels = scientific)+
+#   geom_point(aes(color = Wash), size = 4)+
+#   ggtitle("All reps are 3x cells only control")+
+#   facet_wrap(~Virus)
+
+```
+
