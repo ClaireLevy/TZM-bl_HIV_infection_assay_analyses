@@ -28,7 +28,7 @@ library(scales)
 
 
 #read in the results and metadata
-dat003<-read_plate("./TZM-bl_infection_assay_003/plateR_formatted_metadata_and_results.csv")
+dat003<-read_plate("../TZM-bl_infection_assay_003/plateR_formatted_metadata_and_results.csv")
 
 
 #fix the factors so the order is right in plots
@@ -133,7 +133,7 @@ library(scales)
 
 
 #read in the results and metadata
-dat004<-read_plate("./TZM-bl_infection_assay_004/plateR_formatted_metadata_and_results.csv")
+dat004<-read_plate("../TZM-bl_infection_assay_004/plateR_formatted_metadata_and_results.csv")
 
 #make factors in a good order for plotting
 dat004$Condition<-factor(dat004$Condition)
@@ -237,3 +237,44 @@ dat004JRFL3xCntl<-dat004JRFL %>%
 
 ```
 
+
+001 data:
+Bal dose 1 = virus dilution of 1:6250
+Bal dose 2 = virus dilution of 1:31250
+JR-FL dose 1 = virus dilution of 1:1250
+JR-FL dose 2 = virus dilution of 1:6250
+
+
+```{r, echo=FALSE,warning=FALSE, message= FALSE}
+
+
+raw_data<- read.csv("../TZM-bl_infection_assay_001/raw_results/raw_TXM enhance_001 resultd.csv", stringsAsFactors = FALSE)
+
+dat001<-add_plate("../TZM-bl_infection_assay_001/plateR_formatted_metadata.csv", data = raw_data, well_ids_column = "Well" )
+
+
+
+#extract just the data for the conditions with SE and the controls
+
+dat001_subset<- dat001 %>%
+  filter(SE_Conc != "No_SE"|str_detect(Condition, "only")==TRUE)
+
+
+# split the data up into different dfs for each virus and keep the controls there too.
+
+dat001_subset_Bal <-dat001_subset %>%
+  filter(Virus == "Bal" | Virus == "No_virus")
+
+
+dat001_subset_JRFL<-dat001_subset%>%
+  filter(Virus == "JR-FL" | Virus == "No_virus")
+
+
+
+ggplot(dat001_subset_Bal,aes(x = SE_Conc, y = RLU))+ scale_y_continuous(labels = scientific)+
+  geom_point(aes(), size = 3)+
+  ggtitle ("All Bal + exos data for exp 001")
+
+ggplot(dat001_subset_JRFL,aes(x = SE_Conc, y = RLU))+ scale_y_continuous(labels = scientific)+
+  geom_point(aes(), size = 3)+
+  ggtitle ("All JR-FL + exos data for exp 001")
