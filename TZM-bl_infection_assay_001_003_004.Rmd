@@ -9,7 +9,7 @@ output:
 
 Measure effect of pre-incubating virus and SE with different concentrations of virus per PFU
 
-* Used day8 purified virus for Bal and day5JR-FL 
+* Used day8 purified virus for Bal and day5 JR-FL 
 
 ## Results
 
@@ -109,6 +109,8 @@ ggtitle("Bal data: only reps 3x avg Cells Only control")
 
 
 ```
+
+
 ## TZM-bl infection assay 004 experiment goal
 
 Measure effect of pre-incubating TZM-bl cells and SE before adding virus (either JR-FL or Bal) and compared when the SE are removed ("Washed") or left on the cells ("Unwashed")before adding the virus.
@@ -237,12 +239,22 @@ dat004JRFL3xCntl<-dat004JRFL %>%
 
 ```
 
+## TZM-bl infection assay 001 experiment goal
+Measure effect of pre-incubating virus and SE with different concentrations of virus per PFU
 
-001 data:
-Bal dose 1 = virus dilution of 1:6250
-Bal dose 2 = virus dilution of 1:31250
-JR-FL dose 1 = virus dilution of 1:1250
-JR-FL dose 2 = virus dilution of 1:6250
+* Used day8 purified virus for Bal and day5JR-FL 
+* Lucia did this experiment, I am just showing some of her results and used her plate layout for reference.
+
+Lucia used different two different doses for each virus
+
+* Bal dose 1 = virus dilution of 1:6250
+* Bal dose 2 = virus dilution of 1:31250
+* JR-FL dose 1 = virus dilution of 1:1250
+* JR-FL dose 2 = virus dilution of 1:6250
+
+##Results
+
+I am just plotting the results of the SE + cells data, there were also some wells that were exposed to seminal plasma but we didn't repeat that in 003 or 004.
 
 
 ```{r, echo=FALSE,warning=FALSE, message= FALSE}
@@ -272,9 +284,9 @@ dat001_subset_JRFL<-dat001_subset%>%
 
 
 ggplot(dat001_subset_Bal,aes(x = SE_Conc, y = RLU))+ scale_y_continuous(labels = scientific)+
-  geom_point(aes(), size = 3)+
+  geom_point(aes(color= Dose), size = 3)+
   ggtitle ("All Bal + exos data for exp 001")
 
 ggplot(dat001_subset_JRFL,aes(x = SE_Conc, y = RLU))+ scale_y_continuous(labels = scientific)+
-  geom_point(aes(), size = 3)+
+  geom_point(aes(color = Dose), size = 3)+
   ggtitle ("All JR-FL + exos data for exp 001")
