@@ -1,3 +1,7 @@
+TZM-bl infection assays 003 and 004
+================
+Claire Levy
+
 TZM-bl infection assay 003 experiment goal
 ------------------------------------------
 
@@ -12,7 +16,7 @@ There is a dose response effect of the SE for both Bal and JR-FL; the RLU is low
 
 In general, the cells infected with Bal had higher RLU readouts.
 
-![](TZM-bl_infection_assay_001_003_004_files/figure-markdown_github/unnamed-chunk-1-1.png) ![](TZM-bl_infection_assay_001_003_004_files/figure-markdown_github/unnamed-chunk-1-2.png) ![](TZM-bl_infection_assay_001_003_004_files/figure-markdown_github/unnamed-chunk-1-3.png)
+![](TZM-bl_infection_assay_001_003_004_files/figure-markdown_github/unnamed-chunk-1-1.png)![](TZM-bl_infection_assay_001_003_004_files/figure-markdown_github/unnamed-chunk-1-2.png)![](TZM-bl_infection_assay_001_003_004_files/figure-markdown_github/unnamed-chunk-1-3.png)
 
 TZM-bl infection assay 004 experiment goal
 ------------------------------------------
@@ -30,7 +34,7 @@ Bal: In general, the RLU is lower (less infection) for the cells that were washe
 
 JR-FL: The RLU is lower for the washed cells in the 10^4 and 10^6 exos per PFU conditions, but higher/the same for the 10^5 exos per PFU condition. Also note that the virus alone control is lower than expected.
 
-![](TZM-bl_infection_assay_001_003_004_files/figure-markdown_github/unnamed-chunk-2-1.png) ![](TZM-bl_infection_assay_001_003_004_files/figure-markdown_github/unnamed-chunk-2-2.png)
+![](TZM-bl_infection_assay_001_003_004_files/figure-markdown_github/unnamed-chunk-2-1.png)![](TZM-bl_infection_assay_001_003_004_files/figure-markdown_github/unnamed-chunk-2-2.png)
 
 TZM-bl infection assay 001 experiment goal
 ------------------------------------------
@@ -52,4 +56,4 @@ Results
 
 I am just plotting the results of the SE + cells data, there were also some wells that were exposed to seminal plasma but we didn't repeat that in 003 or 004.
 
-![](TZM-bl_infection_assay_001_003_004_files/figure-markdown_github/unnamed-chunk-3-1.png) ![](TZM-bl_infection_assay_001_003_004_files/figure-markdown_github/unnamed-chunk-3-2.png)
+![](TZM-bl_infection_assay_001_003_004_files/figure-markdown_github/unnamed-chunk-3-1.png)![](TZM-bl_infection_assay_001_003_004_files/figure-markdown_github/unnamed-chunk-3-2.png)

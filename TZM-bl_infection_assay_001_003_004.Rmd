@@ -2,8 +2,7 @@
 title: "TZM-bl infection assays 003 and 004"
 author: "Claire Levy"
 output:
- md_document:
-    variant: markdown_github
+ md_document: github_document
 ---
 ## TZM-bl infection assay 003 experiment goal
 
@@ -105,6 +104,8 @@ ggplot(dat003Bal3xCntl,aes(x = Condition, y = RLU))+ scale_y_continuous(labels =
 geom_point(aes(), size = 3)+
 ggtitle("Bal data: only reps 3x avg Cells Only control")
 
+
+
 #all JRFL data were at least 3x cells only so use same plot.
 
 
@@ -121,7 +122,7 @@ Measure effect of pre-incubating TZM-bl cells and SE before adding virus (either
 
 Except for JR-FL washed, there is a dose response effect of the SE for both Bal and JR-FL; the RLU is lower (less infection) as the concentration of SE per PFU increases. All replicates were at least 3x the cells only (no virus, no SE) control. 
 
-Bal: In general, the RLU is lower (less infection) for the cells that were washed.
+Bal: In general, the RLU is higher (more infection) for the cells that were washed.
 
 JR-FL: The RLU is lower for the washed cells in the 10^4 and 10^6 exos per PFU conditions, but higher/the same for the 10^5 exos per PFU condition. Also note that the virus alone control is lower than expected.
 
@@ -223,9 +224,6 @@ dat004JRFL3xCntl<-dat004JRFL %>%
 #all JRFL and Bal data were at least 3x cells only
 
 
-
-
-
 #together
 #first remove the no virus condition
 # minusNoVirus<-dat004 %>%
@@ -290,3 +288,4 @@ ggplot(dat001_subset_Bal,aes(x = SE_Conc, y = RLU))+ scale_y_continuous(labels =
 ggplot(dat001_subset_JRFL,aes(x = SE_Conc, y = RLU))+ scale_y_continuous(labels = scientific)+
   geom_point(aes(color = Dose), size = 3)+
   ggtitle ("All JR-FL + exos data for exp 001")
+
