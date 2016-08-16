@@ -30,7 +30,7 @@ Results
 
 Except for JR-FL washed, there is a dose response effect of the SE for both Bal and JR-FL; the RLU is lower (less infection) as the concentration of SE per PFU increases. All replicates were at least 3x the cells only (no virus, no SE) control.
 
-Bal: In general, the RLU is lower (less infection) for the cells that were washed.
+Bal: In general, the RLU is higher (more infection) for the cells that were washed.
 
 JR-FL: The RLU is lower for the washed cells in the 10^4 and 10^6 exos per PFU conditions, but higher/the same for the 10^5 exos per PFU condition. Also note that the virus alone control is lower than expected.
 
